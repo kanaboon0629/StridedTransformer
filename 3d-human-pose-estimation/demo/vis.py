@@ -26,6 +26,9 @@ plt.switch_backend('agg')
 matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
 
+base_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(base_dir)
+
 def show2Dpose(kps, img):
     connections = [[0, 1], [1, 2], [2, 3], [0, 4], [4, 5],
                    [5, 6], [0, 7], [7, 8], [8, 9], [9, 10],
@@ -165,7 +168,7 @@ def get_pose3D(video_path, output_dir):
     args.layers, args.channel, args.d_hid, args.frames = 3, 256, 512, 351
     args.stride_num = [3, 9, 13]
     args.pad = (args.frames - 1) // 2
-    args.previous_dir = '/Users/kanakokunii/StridedTransformer/3d-human-pose-estimation/checkpoint/pretrained'
+    args.previous_dir = os.path.join(parent_dir, 'checkpoint/pretrained')
     args.n_joints, args.out_joints = 17, 17
 
     # Reload model
@@ -336,10 +339,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
-
-    video_path = '/Users/kanakokunii/StridedTransformer/3d-human-pose-estimation/demo/video/' + args.video
+    video_path = os.path.join(base_dir, 'video', args.video)
     video_name = video_path.split('/')[-1].split('.')[0]
-    output_dir = '/Users/kanakokunii/StridedTransformer/3d-human-pose-estimation/demo/output/' + video_name + '/'
+    output_dir = os.path.join(base_dir, 'output', video_name) + '/'
 
     get_pose2D(video_path, output_dir)
     get_pose3D(video_path, output_dir)
