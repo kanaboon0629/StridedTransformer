@@ -99,15 +99,16 @@ video_url = 'https://youtu.be/U4P4u6eSIHw?si=5XCbThpCddUNiwRs' #@param {type:"st
 #@markdown 動画の切り抜き範囲(秒)を指定してください。\
 #@markdown 30秒以上の場合OOM発生の可能性が高いため注意
 start_sec =  220#@param {type:"integer"}
-end_sec =  243#@param {type:"integer"}
+end_sec =  222#@param {type:"integer"}
 
 (start_pt, end_pt) = (start_sec, end_sec)
 
 download_resolution = 360
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
-full_video_path = '/Users/kanakokunii/3DDanceModel/Assets/StridedTransformer/3d-human-pose-estimation/demo/video/full_video.mp4'
+full_video_path = os.path.join(base_dir, '3d-human-pose-estimation/demo/video/full_video.mp4')
 file_name = 'input_clip.mp4'
-input_clip_path = '/Users/kanakokunii/3DDanceModel/Assets/StridedTransformer/3d-human-pose-estimation/demo/video/' + file_name
+input_clip_path = os.path.join(base_dir, '3d-human-pose-estimation/demo/video', file_name)
 
 # 動画ダウンロード
 ydl_opts = {'format': f'best[height<={download_resolution}]', 'overwrites': True, 'outtmpl': full_video_path}
@@ -156,7 +157,7 @@ def m_speed_change(path_in, path_out, scale_factor, color_flag):
 
 path_in = input_clip_path         # 元動画のパス
 slow_motion_filename = 'fps_changed_input_video.mp4'
-path_out = '/Users/kanakokunii/3DDanceModel/Assets/StridedTransformer/3d-human-pose-estimation/demo/video/' +  slow_motion_filename     # 保存する動画のパス
+path_out = os.path.join(base_dir, '3d-human-pose-estimation/demo/video', slow_motion_filename)     # 保存する動画のパス
 scale_factor = 1/6              # FPSにかけるスケールファクター
 color_flag = True               # カラー動画はTrue, グレースケール動画はFalse
 
@@ -174,11 +175,11 @@ m_speed_change(path_in, path_out, scale_factor, color_flag)
 
 import subprocess
 
-subprocess.run(["python3", "/Users/kanakokunii/StridedTransformer/3d-human-pose-estimation/demo/vis.py", "--video", file_name])
+subprocess.run(["python3", os.path.join(base_dir, '3d-human-pose-estimation/demo/vis.py'), "--video", file_name])
 #!python3 demo/vis.py --video {file_name}
 #!python3 demo/vis.py --video {slow_motion_filename}
 
-# clip = VideoFileClip('/Users/kanakokunii/3DDanceModel/Assets/StridedTransformer/3d-human-pose-estimation/demo/video/input_clip.mp4')
+# clip = VideoFileClip('/StridedTransformer/3d-human-pose-estimation/demo/video/input_clip.mp4')
 # clip = resize(clip, height=420)
 # clip.ipython_display()
 
